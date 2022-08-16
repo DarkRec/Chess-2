@@ -1,0 +1,27 @@
+{
+  "name": "chess-2",
+  "version": "1.0.0",
+  "description": "A brand new chess game with new rules based on Oats Jetkins video : https://www.youtube.com/watch?v=mcivL8u176Y",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarkRec/Chess-2.git"
+  },
+  "author": "Jakub Litewka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarkRec/Chess-2/issues"
+  },
+  "homepage": "https://github.com/DarkRec/Chess-2#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0"
+  }
+}
