@@ -29,8 +29,21 @@ body {
     height: 64px;
     width: 64px;
     background-color: white;
+    outline: 1px solid black;
     display: inline-block;
     float: left;
+}
+
+.white {
+    background-color: white;
+}
+
+.blue {
+    background-color: deepskyblue;
+}
+
+.highlighted {
+    background-color: red;
 }
 
 .BoardField img:hover {

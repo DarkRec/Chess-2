@@ -4,6 +4,7 @@ class Board {
         //console.log("konstruktor klasy Board");
         this.boardGenerate();
         this.PawnList = [];
+        this.Highlighted = [];
         this.PawnsPositions = {
             White: {
                 Fishes: {
@@ -21,7 +22,7 @@ class Board {
             },
             Black: {
                 Fishes: {
-                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7"],
+                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7", "D3", "E3"],
                     name: "fish",
                 },
                 Rooks: { position: ["A8", "H8"], name: "rook" },
@@ -50,13 +51,13 @@ class Board {
             $("#board").append(row);
         }
 
-        function CreateBoardField(row, col, change) {
+        function CreateBoardField(row, col) {
             var box = document.createElement("div");
-            box.className = "BoardField";
-            box.id = "Box" + String.fromCharCode(c + 65) + r;
+            box.classList.add("BoardField");
+            box.id = "Box" + String.fromCharCode(col + 65) + row;
             var backgroundColor;
-            if ((c + r) % 2 == 1) backgroundColor = "deepskyblue";
-            else backgroundColor = "white";
+            if ((col + row) % 2 == 1) box.classList.add("blue");
+            else box.classList.add("white");
             box.style.backgroundColor = backgroundColor;
             $("#Row" + row).append(box);
         }
@@ -71,8 +72,7 @@ class Board {
             CreateRow(r);
             CreateInfoBox(r + 48, r);
             for (var c = 0; c < 8; c++) {
-                var change = c % 8 === 0;
-                CreateBoardField(r, c, change);
+                CreateBoardField(r, c);
             }
             CreateInfoBox(r + 48, r);
         }
@@ -100,11 +100,14 @@ class Board {
             var PawnInfo = board.PawnList[i];
             var pawn = document.createElement("img");
             pawn.className = PawnInfo.type;
-            pawn.id = PawnInfo.type + i;
             pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
             pawn.onclick = function () {
                 console.log(this.className);
                 console.log(this);
+                board.Highlighted.forEach(element => {
+                    document.getElementById("Box" + element).classList.remove("highlighted")
+                });
+                board.Highlighted = []
                 for (var j in board.PawnList) {
                     if (
                         board.PawnList[j].position ==
