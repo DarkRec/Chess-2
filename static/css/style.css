@@ -1,15 +1,33 @@
-body{
+body {
     background-color: slategray;
 }
 
-#board{
-    width:544px;
+#board {
+    width: 640px;
 }
 
-.BoardField{
+.InfoField {
+    background-color: dodgerblue;
+    font-size: 50px;
+    text-align: center;
+    text-overflow: hidden;
+
     height: 64px;
     width: 64px;
     background-color: white;
     display: inline-block;
-    margin: 0 2px;
+    float: left;
+}
+
+.BoardField {
+    height: 64px;
+    width: 64px;
+    background-color: white;
+    display: inline-block;
+    float: left;
+}
+
+.BoardRow {
+    height: 64px;
+    position: relative;
 }

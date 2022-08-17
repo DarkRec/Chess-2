@@ -1,21 +1,22 @@
-console.log("wczytano plik Rook.js");
-class Rook {
-    constructor() {
-        console.log("konstruktor klasy Rook");
-        this.PlaceRooks();
+//console.log("wczytano plik Rook.js");
+class Rook extends Pawn {
+    constructor(position, type, color) {
+        //console.log("konstruktor klasy Rook");
+        super(position, type, color);
     }
+
     PlaceRooks() {
-        var Rooks = [0, 7, 56, 63];
-        for (var i in Rooks) {
-            var rook = document.createElement("img");
-            rook.className = "rook";
-            rook.id = "rook" + i;
-            rook.src = "img/White/rook.png";
-            if (Rooks[i] > 32) rook.src = "img/Black/rook.png";
-            rook.onclick = function () {
-                console.log(this);
-            };
-            $("#Box" + Rooks[i]).append(rook);
+        var Rooks = board.PawnsPositions.White.Rooks;
+        for (var i in Rooks.position) {
+            board.PawnList.push(
+                new Rook(Rooks.position[i], Rooks.name, "White")
+            );
+        }
+        var Rooks = board.PawnsPositions.Black.Rooks;
+        for (var i in Rooks.position) {
+            board.PawnList.push(
+                new Rook(Rooks.position[i], Rooks.name, "Black")
+            );
         }
     }
 }
