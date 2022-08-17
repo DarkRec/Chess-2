@@ -1,7 +1,7 @@
 //console.log("wczytano plik Pawn.js");
 class Pawn {
     constructor(position, type, color) {
-        console.log("konstruktor klasy Pawn");
+        //console.log("konstruktor klasy Pawn");
         this.position = position;
         this.type = type;
         this.color = color;

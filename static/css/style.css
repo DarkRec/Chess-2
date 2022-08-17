@@ -4,6 +4,7 @@ body {
 
 #board {
     width: 640px;
+    border: 2px solid black;
 }
 
 .InfoField {
@@ -14,9 +15,14 @@ body {
 
     height: 64px;
     width: 64px;
-    background-color: white;
     display: inline-block;
     float: left;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+}
+
+.InfoField:hover {
+    cursor: default;
 }
 
 .BoardField {
@@ -25,6 +31,10 @@ body {
     background-color: white;
     display: inline-block;
     float: left;
+}
+
+.BoardField img:hover {
+    cursor: pointer;
 }
 
 .BoardRow {

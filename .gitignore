@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+static/img/Black/Thumbs.db
+static/img/Thumbs.db
+static/img/White/Thumbs.db

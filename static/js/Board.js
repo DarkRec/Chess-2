@@ -16,8 +16,8 @@ class Board {
                     position: ["C2", "F2"],
                     name: "elephant",
                 },
-                Kings: { position: ["D1"], name: "king" },
-                Queens: { position: ["E1"], name: "queen" },
+                Kings: { position: ["E1"], name: "king" },
+                Queens: { position: ["D1"], name: "queen" },
             },
             Black: {
                 Fishes: {
@@ -30,8 +30,8 @@ class Board {
                     position: ["C7", "F7"],
                     name: "elephant",
                 },
-                Kings: { position: ["D8"], name: "king" },
-                Queens: { position: ["E8"], name: "queen" },
+                Kings: { position: ["E8"], name: "king" },
+                Queens: { position: ["D8"], name: "queen" },
             },
         };
     }
@@ -55,7 +55,7 @@ class Board {
             box.className = "BoardField";
             box.id = "Box" + String.fromCharCode(c + 65) + r;
             var backgroundColor;
-            if ((c + r) % 2 == 0) backgroundColor = "deepskyblue";
+            if ((c + r) % 2 == 1) backgroundColor = "deepskyblue";
             else backgroundColor = "white";
             box.style.backgroundColor = backgroundColor;
             $("#Row" + row).append(box);
@@ -67,7 +67,7 @@ class Board {
             CreateInfoBox(num + 65, 0);
         }
         CreateInfoBox(0, 0);
-        for (var r = 1; r < 9; r++) {
+        for (var r = 8; r > 0; r--) {
             CreateRow(r);
             CreateInfoBox(r + 48, r);
             for (var c = 0; c < 8; c++) {
