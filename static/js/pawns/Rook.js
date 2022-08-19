@@ -19,4 +19,16 @@ class Rook extends Pawn {
             );
         }
     }
+
+    movement() {
+        ui.CurrentPawn = this;
+        for (let row = 1; row <= 8; row++) {
+            for (let col = 0; col <= 7; col++) {
+                if ($("#Box" + String.fromCharCode(col + 65) + row).is(':empty')) {
+                    $("#Box" + String.fromCharCode(col + 65) + row).addClass("highlighted")
+                    board.Highlighted.push(document.getElementById("Box" + String.fromCharCode(col + 65) + row));
+                }
+            }
+        }
+    }
 }

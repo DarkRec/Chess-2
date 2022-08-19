@@ -34,12 +34,12 @@ class Fish extends Pawn {
                                     figure = element;
                                 }
                             });
-                            if (figure.color == "Black" && col != 0 && row != 0) {
+                            if (figure.color == "Black" && figure.captured == false && col != 0 && row != 0) {
                                 tempdiv.classList.add("highlighted");
                                 board.Highlighted.push(tempdiv);
                             }
                         }
-                    } catch {}
+                    } catch { }
                 } else {
                     try {
                         tempdiv = document.getElementById("Box" + String.fromCharCode(this.position.charCodeAt(0) + col) + (parseInt(this.position.substr(1)) - row));
@@ -52,12 +52,12 @@ class Fish extends Pawn {
                                     figure = element;
                                 }
                             });
-                            if (figure.color == "White" && col != 0 && row != 0) {
+                            if (figure.color == "White" && figure.captured == false && col != 0 && row != 0) {
                                 tempdiv.classList.add("highlighted");
                                 board.Highlighted.push(tempdiv);
                             }
                         }
-                    } catch {}
+                    } catch { }
                 }
             }
     }

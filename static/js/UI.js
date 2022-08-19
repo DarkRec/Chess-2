@@ -8,13 +8,18 @@ class Ui {
     }
 
     move(NewPos) {
+        console.log(ui.CurrentPawn.position)
         $("#" + NewPos.id).empty();
         board.PawnList.forEach((element) => {
-            if (ui.CurrentPawn != undefined && element.position == ui.CurrentPawn.position) {
+            if (ui.CurrentPawn != undefined && element.position == ui.CurrentPawn.position && element.captured == false) {
+                if (element.type == "elephant") {
+                    elephant.charge(element.position, NewPos.id.substr(3))
+                }
                 element.position = NewPos.id.substr(3);
                 //$("#NodesToMove").detach().appendTo('#DestinationContainerNode')
                 console.log($(".selected"));
                 console.log(element.position);
+                console.log(element);
                 $(".selected")
                     .detach()
                     .appendTo("#Box" + element.position); //Przenoszenie obiektu z jednego miejsca do drugiego

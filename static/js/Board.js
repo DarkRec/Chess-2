@@ -22,10 +22,10 @@ class Board {
             },
             Black: {
                 Fishes: {
-                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7", "D3", "E3"],
+                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7", "D3", "E3", "H8"],
                     name: "fish",
                 },
-                Rooks: { position: ["A8", "H8"], name: "rook" },
+                Rooks: { position: ["A8"], name: "rook" },
                 Monkeys: { position: ["B8", "G8"], name: "monke" },
                 Elephants: {
                     position: ["C7", "F7"],
@@ -110,7 +110,7 @@ class Board {
                 pawn.onclick = function () {
                     try {
                         $(".selected")[0].classList.remove("selected");
-                    } catch {}
+                    } catch { }
                     this.classList.add("selected");
                     board.Highlighted.forEach((element) => {
                         var el = element.id.slice(3, 5);
