@@ -35,6 +35,7 @@ class Board {
                 Queens: { position: ["D8"], name: "queen" },
             },
         };
+        this.PawnColor = "White";
     }
 
     boardGenerate() {
@@ -94,29 +95,45 @@ class Board {
         });
     }
 
+    Capture(capturedPawn) {
+        ui.move(capturedPawn.parentElement);
+    }
+
     PlacePawns() {
         console.log(board.PawnList);
         for (var i in board.PawnList) {
-            var PawnInfo = board.PawnList[i];
-            var pawn = document.createElement("img");
-            pawn.className = PawnInfo.type;
-            pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
-            pawn.onclick = function () {
-                console.log(this.className);
-                console.log(this);
-                board.Highlighted.forEach(element => {
-                    document.getElementById("Box" + element).classList.remove("highlighted")
-                });
-                board.Highlighted = []
-                for (var j in board.PawnList) {
-                    if (
-                        board.PawnList[j].position ==
-                        this.parentElement.id.slice(3, 5)
-                    )
-                        board.PawnList[j].movement();
-                }
-            };
-            $("#Box" + PawnInfo.position).append(pawn);
+            if (!board.PawnList[i].captured) {
+                var PawnInfo = board.PawnList[i];
+                var pawn = document.createElement("img");
+                pawn.className = PawnInfo.type;
+                pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
+                pawn.onclick = function () {
+                    try {
+                        $(".selected")[0].classList.remove("selected");
+                    } catch {}
+                    this.classList.add("selected");
+                    board.Highlighted.forEach((element) => {
+                        var el = element.id.slice(3, 5);
+                        document.getElementById("Box" + el).classList.remove("highlighted");
+                        if (this.parentElement && this.parentElement == element) {
+                            $("#Box" + ui.CurrentPawn.position)[0].children[0].classList.add("selected");
+                            for (var j in board.PawnList) {
+                                if (board.PawnList[j].position == this.parentElement.id.slice(3, 5)) board.PawnList[j].captured = true;
+                            }
+                            ui.move(this.parentElement);
+                        }
+                    });
+                    board.Highlighted = [];
+                    for (var j in board.PawnList) {
+                        if (!board.PawnList[j].captured && this.parentElement != null && board.PawnList[j].position == this.parentElement.id.slice(3, 5)) {
+                            if (ui.CurrentPawn == undefined || ui.CurrentPawn.color == this.src.split("/")[this.src.split("/").length - 2]) {
+                                board.PawnList[j].movement();
+                            }
+                        }
+                    }
+                };
+                $("#Box" + PawnInfo.position).append(pawn);
+            }
         }
     }
 }

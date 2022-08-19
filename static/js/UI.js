@@ -4,49 +4,34 @@
 
 class Ui {
     constructor() {
-        this.CurrentPawn = "";
+        this.CurrentPawn;
     }
 
-}
-
-$(document).on('click', '.highlighted', function () {
-    document.getElementById("Box" + ui.CurrentPawn.position).innerHTML = ""
-    document.getElementById("Box" + this.id.substr(3)).innerHTML = ""
-    var figure = ""
-    board.PawnList.forEach(element => {
-        if (element.position == this.id.substr(3)) {
-            element.captured = true
-            element.position = "xx"
-        }
-    });
-    board.PawnList.forEach(element => {
-        if (element.position == ui.CurrentPawn.position) {
-            element.position = this.id.substr(3)
-            var PawnInfo = element;
-            var pawn = document.createElement("img");
-            pawn.className = PawnInfo.type;
-            pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
-            pawn.onclick = function () {
-                console.log(this.className);
-                console.log(this);
-                board.Highlighted.forEach(element => {
-                    document.getElementById("Box" + element).classList.remove("highlighted")
+    move(NewPos) {
+        $("#" + NewPos.id).empty();
+        board.PawnList.forEach((element) => {
+            if (ui.CurrentPawn != undefined && element.position == ui.CurrentPawn.position) {
+                element.position = NewPos.id.substr(3);
+                //$("#NodesToMove").detach().appendTo('#DestinationContainerNode')
+                console.log($(".selected"));
+                console.log(element.position);
+                $(".selected")
+                    .detach()
+                    .appendTo("#Box" + element.position); //Przenoszenie obiektu z jednego miejsca do drugiego
+                board.Highlighted.forEach((element) => {
+                    var el = element.id.slice(3, 5);
+                    document.getElementById("Box" + el).classList.remove("highlighted");
                 });
-                board.Highlighted = []
-                for (var j in board.PawnList) {
-                    if (
-                        board.PawnList[j].position ==
-                        this.parentElement.id.slice(3, 5)
-                    )
-                        board.PawnList[j].movement();
-                }
-            };
-            $("#Box" + PawnInfo.position).append(pawn);
-            board.Highlighted.forEach(element => {
-                document.getElementById("Box" + element).classList.remove("highlighted")
-            });
-            board.Highlighted = []
-        }
-    });
-});
+                board.Highlighted = [];
+                ui.CurrentPawn = undefined;
+            }
+        });
 
+        $(".selected")[0].classList.remove("selected");
+        //if (board.PawnColor == "White") board.PawnColor = "Black";
+        //else board.PawnColor = "White";
+    }
+}
+$(document).on("click", ".highlighted", function () {
+    ui.move(this);
+});
