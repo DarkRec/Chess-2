@@ -38,6 +38,10 @@ class Rook extends Pawn {
                 var Prey = board.PawnList.find(
                     (el) => el.position == String.fromCharCode(id.charCodeAt(0) + Math.round(num % 3)) + (parseInt(id.substr(1)) + Math.round(num / 3))
                 );
+                if (Prey.type == "king" || Prey.type == "queen") {
+                    board.imprisoning = true;
+                    Prey.imprisonment();
+                }
                 if (Prey.color == ui.CurrentPawn.color && !Prey.captured) {
                     Prey.captured = true;
                     $("#Box" + Prey.position).empty();

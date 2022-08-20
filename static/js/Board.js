@@ -2,9 +2,20 @@
 class Board {
     constructor() {
         //console.log("konstruktor klasy Board");
-        this.boardGenerate();
         this.PawnList = [];
         this.Highlighted = [];
+        this.BoardStructure = [
+            ["", "C ", "CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "C ", ""],
+            ["", "C8", "B", "B", "B", "B", "B", "B", "B", "B", "C8", ""],
+            ["", "C7", "B", "B", "B", "B", "B", "B", "B", "B", "C7", ""],
+            ["", "C6", "B", "B", "B", "B", "B", "B", "B", "B", "C6", ""],
+            ["P1", "C5", "B", "B", "B", "B", "B", "B", "B", "B", "C5", "P3"],
+            ["P2", "C4", "B", "B", "B", "B", "B", "B", "B", "B", "C4", "P4"],
+            ["", "C3", "B", "B", "B", "B", "B", "B", "B", "B", "C3", ""],
+            ["", "C2", "B", "B", "B", "B", "B", "B", "B", "B", "C2", ""],
+            ["", "C1", "B", "B", "B", "B", "B", "B", "B", "B", "C1", ""],
+            ["", "C ", "CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "C ", ""],
+        ];
         this.PawnsPositions = {
             White: {
                 Fishes: {
@@ -37,54 +48,37 @@ class Board {
         };
         this.PawnColor = "White";
         this.capturing = false;
+        this.imprisoning = false;
+        this.boardGenerate();
     }
 
     boardGenerate() {
-        function CreateInfoBox(nr, row) {
-            var InfoField = document.createElement("div");
-            InfoField.className = "InfoField";
-            InfoField.innerText = String.fromCharCode(nr);
-            $("#Row" + row).append(InfoField);
-        }
-        function CreateRow(nr) {
-            var row = document.createElement("div");
-            row.id = "Row" + nr;
-            row.className = "BoardRow";
-            $("#board").append(row);
-        }
-
-        function CreateBoardField(row, col) {
-            var box = document.createElement("div");
-            box.classList.add("BoardField");
-            box.id = "Box" + String.fromCharCode(col + 65) + row;
-            var backgroundColor;
-            if ((col + row) % 2 == 1) box.classList.add("blue");
-            else box.classList.add("white");
-            box.style.backgroundColor = backgroundColor;
-            $("#Row" + row).append(box);
-        }
-
-        CreateRow(0);
-        CreateInfoBox(0, 0);
-        for (var num = 0; num < 8; num++) {
-            CreateInfoBox(num + 65, 0);
-        }
-        CreateInfoBox(0, 0);
-        for (var r = 8; r > 0; r--) {
-            CreateRow(r);
-            CreateInfoBox(r + 48, r);
-            for (var c = 0; c < 8; c++) {
-                CreateBoardField(r, c);
+        for (var row in this.BoardStructure) {
+            var rowDiv = document.createElement("div");
+            rowDiv.id = "Row" + row;
+            rowDiv.className = "BoardRow";
+            $("#board").append(rowDiv);
+            for (var col in this.BoardStructure[row]) {
+                var Field = this.BoardStructure[row][col];
+                var Box = document.createElement("div");
+                if (Field[0] == "C") {
+                    Box.classList.add("InfoField");
+                    Box.innerText = Field[1];
+                } else if (Field[0] == "B") {
+                    Box.classList.add("BoardField");
+                    Box.id = "Box" + String.fromCharCode(+col + 63) + (9 - row);
+                    if ((+col + +row) % 2 == 0) Box.classList.add("blue");
+                    else Box.classList.add("white");
+                } else if (Field[0] == "P") {
+                    Box.classList.add("PrisonField");
+                    Box.id = "Prison" + Field[1];
+                    if ((+col + +row) % 2 == 0) Box.classList.add("blue");
+                    else Box.classList.add("white");
+                } else Box.classList.add("EmptyField");
+                //  Box.innerText = Field;
+                $("#Row" + row).append(Box);
             }
-            CreateInfoBox(r + 48, r);
         }
-        CreateRow(9);
-        CreateInfoBox(0, 9);
-        for (var num = 0; num < 8; num++) {
-            CreateInfoBox(num + 65, 9);
-        }
-        CreateInfoBox(0, 9);
-
         $(document).ready(function () {
             fish.PlaceFishes();
             rook.PlaceRooks();
@@ -121,32 +115,40 @@ class Board {
     }
 
     PawnFunction(DIV) {
-        try {
-            $(".selected")[0].classList.remove("selected");
-        } catch {}
-        DIV.classList.add("selected");
-        board.Highlighted.forEach((element) => {
-            var el = element.id.slice(3, 5);
-            document.getElementById("Box" + el).classList.remove("highlighted");
-            if (DIV.parentElement && DIV.parentElement == element) board.Capture(DIV.parentElement);
-        });
-        board.Highlighted = [];
-        for (var j in board.PawnList) {
+        if (!board.imprisoning) {
             try {
-                if (
-                    !board.PawnList[j].captured &&
-                    board.PawnList[j].position == DIV.parentElement.id.slice(3, 5) &&
-                    (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
-                )
-                    board.PawnList[j].movement();
+                $(".selected")[0].classList.remove("selected");
             } catch {}
+            DIV.classList.add("selected");
+            board.Highlighted.forEach((element) => {
+                var el = element.id.slice(3, 5);
+                document.getElementById("Box" + el).classList.remove("highlighted");
+                if (DIV.parentElement && DIV.parentElement == element) board.Capture(DIV.parentElement);
+            });
+            board.Highlighted = [];
+            for (var j in board.PawnList) {
+                try {
+                    if (
+                        !board.PawnList[j].captured &&
+                        board.PawnList[j].position == DIV.parentElement.id.slice(3, 5) &&
+                        (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
+                    )
+                        board.PawnList[j].movement();
+                } catch {}
+            }
         }
     }
 
     Capture(Pawn) {
         board.capturing = true;
         $("#Box" + ui.CurrentPawn.position)[0].children[0].classList.add("selected");
-        for (var j in board.PawnList) if (board.PawnList[j].position == Pawn.id.slice(3, 5)) board.PawnList[j].captured = true;
+        for (var j in board.PawnList)
+            if (board.PawnList[j].position == Pawn.id.slice(3, 5)) {
+                if (board.PawnList[j].type == "king" || board.PawnList[j].type == "queen") {
+                    board.imprisoning = true;
+                    board.PawnList[j].imprisonment();
+                } else board.PawnList[j].captured = true;
+            }
         ui.move(Pawn);
     }
 }

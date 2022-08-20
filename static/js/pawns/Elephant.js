@@ -45,6 +45,10 @@ class Elephant extends Pawn {
                     $("#Box" + String.fromCharCode(start.charCodeAt(0) + col / 2) + (parseInt(start.substr(1)) + row / 2)).empty();
                     board.PawnList.forEach((element) => {
                         if (element.position == String.fromCharCode(start.charCodeAt(0) + col / 2) + (parseInt(start.substr(1)) + row / 2)) {
+                            if (element.type == "king" || element.type == "queen") {
+                                board.imprisoning = true;
+                                element.imprisonment();
+                            }
                             element.captured = true;
                             if (element.color != ui.CurrentPawn.color) board.capturing = true;
                         }

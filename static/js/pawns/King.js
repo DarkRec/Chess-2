@@ -3,6 +3,8 @@ class King extends Pawn {
     constructor(position, type, color) {
         //console.log("konstruktor klasy King");
         super(position, type, color);
+        this.prisoned = false;
+        this.banana = true;
     }
 
     PlaceKings() {
@@ -37,5 +39,28 @@ class King extends Pawn {
                     }
                 } catch {}
             }
+    }
+
+    imprisonment() {
+        var Prisoner = this;
+        if (this.color == "White") {
+            if ($("#Prison3")[0].childElementCount == 0) $("#Prison3")[0].classList.add("prisonOpen");
+            if ($("#Prison4")[0].childElementCount == 0) $("#Prison4")[0].classList.add("prisonOpen");
+        } else {
+            if ($("#Prison1")[0].childElementCount == 0) $("#Prison1")[0].classList.add("prisonOpen");
+            if ($("#Prison2")[0].childElementCount == 0) $("#Prison2")[0].classList.add("prisonOpen");
+        }
+        $(".prisonOpen").on("click.prisonOpen", function () {
+            if (board.imprisoning) {
+                Prisoner.position = this.id;
+                var pawn = document.createElement("img");
+                pawn.className = Prisoner.type;
+                pawn.src = "img/" + Prisoner.color + "/" + Prisoner.type + ".png";
+                $(this).append(pawn);   
+                $(".prisonOpen").off("click.prisonOpen");
+                $(".prisonOpen").removeClass("prisonOpen");
+                board.imprisoning = false;
+            }
+        });
     }
 }

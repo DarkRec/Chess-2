@@ -3,6 +3,7 @@ class Queen extends Pawn {
     constructor(position, type, color) {
         //console.log("konstruktor klasy Queen");
         super(position, type, color);
+        this.prisoned = false;
     }
 
     PlaceQueens() {
@@ -18,7 +19,6 @@ class Queen extends Pawn {
     movement() {
         ui.CurrentPawn = this;
         var tempdiv, figure;
-        console.log(ui.CurrentPawn.color);
         for (let row = -1; row < 2; row++)
             for (let col = -1; col < 2; col++) {
                 if (col == 0 && row == 0);
@@ -41,5 +41,28 @@ class Queen extends Pawn {
                             break;
                         }
             }
+    }
+
+    imprisonment() {
+        var Prisoner = this;
+        if (this.color == "White") {
+            if ($("#Prison3")[0].childElementCount == 0) $("#Prison3")[0].classList.add("prisonOpen");
+            if ($("#Prison4")[0].childElementCount == 0) $("#Prison4")[0].classList.add("prisonOpen");
+        } else {
+            if ($("#Prison1")[0].childElementCount == 0) $("#Prison1")[0].classList.add("prisonOpen");
+            if ($("#Prison2")[0].childElementCount == 0) $("#Prison2")[0].classList.add("prisonOpen");
+        }
+        $(".prisonOpen").on("click.prisonOpen", function () {
+            if (board.imprisoning) {
+                Prisoner.position = this.id;
+                var pawn = document.createElement("img");
+                pawn.className = Prisoner.type;
+                pawn.src = "img/" + Prisoner.color + "/" + Prisoner.type + ".png";
+                $(this).append(pawn);
+                $(".prisonOpen").off("click.prisonOpen");
+                $(".prisonOpen").removeClass("prisonOpen");
+                board.imprisoning = false;
+            }
+        });
     }
 }
