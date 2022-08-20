@@ -30,8 +30,8 @@ class Queen extends Pawn {
                                 tempdiv.classList.add("highlighted");
                                 board.Highlighted.push(tempdiv);
                             } else {
-                                figure = board.PawnList.find((el) => el.position == tempdiv.id.slice(3, 5));
-                                if (figure.color != ui.CurrentPawn.color && !figure.captured) {
+                                figure = board.PawnList.find((el) => el.position == tempdiv.id.slice(3, 5) && !el.captured);
+                                if (figure.color != ui.CurrentPawn.color) {
                                     tempdiv.classList.add("highlighted");
                                     board.Highlighted.push(tempdiv);
                                 }

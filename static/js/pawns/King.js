@@ -32,7 +32,7 @@ class King extends Pawn {
                         board.PawnList.forEach((element) => {
                             if (element.position == tempdiv.id.slice(3, 5) && !element.captured) figure = element;
                         });
-                        if (figure.color != this.color && !figure.captured) {
+                        if (figure.color != this.color) {
                             tempdiv.classList.add("highlighted");
                             board.Highlighted.push(tempdiv);
                         }
@@ -56,7 +56,7 @@ class King extends Pawn {
                 var pawn = document.createElement("img");
                 pawn.className = Prisoner.type;
                 pawn.src = "img/" + Prisoner.color + "/" + Prisoner.type + ".png";
-                $(this).append(pawn);   
+                $(this).append(pawn);
                 $(".prisonOpen").off("click.prisonOpen");
                 $(".prisonOpen").removeClass("prisonOpen");
                 board.imprisoning = false;

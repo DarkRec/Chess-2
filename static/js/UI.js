@@ -22,6 +22,18 @@ class Ui {
                         var el = element.id.slice(3, 5);
                         document.getElementById("Box" + el).classList.remove("highlighted");
                     });
+                    if (ui.CurrentPawn.type == "fish")
+                        if (
+                            (ui.CurrentPawn.color == "White" && ui.CurrentPawn.position[1] == 8) ||
+                            (ui.CurrentPawn.color == "Black" && ui.CurrentPawn.position[1] == 1 && !ui.CurrentPawn.captured)
+                        ) {
+                            ui.CurrentPawn.captured = true;
+                            $("#" + NewPos.id).empty();
+                            let FishUpgrade = new FishQueen(ui.CurrentPawn.position, "FishQueen", ui.CurrentPawn.color);
+                            board.PawnList.push(FishUpgrade);
+                            board.CreatePawn(FishUpgrade);
+                            console.log(FishUpgrade);
+                        }
                     if (board.capturing)
                         rook.RookList.forEach((element) => {
                             if (!element.captured && ui.CurrentPawn.color != element.color) rook.passive(element.position);

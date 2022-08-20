@@ -35,16 +35,22 @@ class Rook extends Pawn {
     passive(id) {
         for (let num = -3; num < 4; num += 2) {
             try {
-                var Prey = board.PawnList.find(
-                    (el) => el.position == String.fromCharCode(id.charCodeAt(0) + Math.round(num % 3)) + (parseInt(id.substr(1)) + Math.round(num / 3))
-                );
+                var Prey;
+                board.PawnList.forEach((element) => {
+                    if (
+                        element.position == String.fromCharCode(id.charCodeAt(0) + Math.round(num % 3)) + (parseInt(id.substr(1)) + Math.round(num / 3)) &&
+                        !element.captured
+                    )
+                        Prey = element;
+                });
                 if (Prey.type == "king" || Prey.type == "queen") {
                     board.imprisoning = true;
                     Prey.imprisonment();
                 }
-                if (Prey.color == ui.CurrentPawn.color && !Prey.captured) {
+                if (Prey.color == ui.CurrentPawn.color) {
                     Prey.captured = true;
                     $("#Box" + Prey.position).empty();
+                    console.log(Prey);
                 }
             } catch {}
         }

@@ -17,10 +17,7 @@ class Fish extends Pawn {
     }
     movement() {
         ui.CurrentPawn = this;
-        var tempdiv;
-        var figure;
-        var tempRow;
-        //if (this.color == board.PawnColor)
+        var tempdiv, figure, tempRow;
         for (let row = 1; row >= 0; row--) {
             tempRow = row;
             if (this.color == "Black") {
@@ -34,9 +31,9 @@ class Fish extends Pawn {
                         board.Highlighted.push(tempdiv);
                     } else {
                         board.PawnList.forEach((element) => {
-                            if (element.position == tempdiv.id.slice(3, 5)) figure = element;
+                            if (element.position == tempdiv.id.slice(3, 5) && !element.captured) figure = element;
                         });
-                        if (figure.color != this.color && !figure.captured && col != 0 && row != 0) {
+                        if (figure.color != this.color && col != 0 && row != 0) {
                             tempdiv.classList.add("highlighted");
                             board.Highlighted.push(tempdiv);
                         }

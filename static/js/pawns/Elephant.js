@@ -28,9 +28,9 @@ class Elephant extends Pawn {
                         board.Highlighted.push(tempdiv);
                     } else {
                         board.PawnList.forEach((element) => {
-                            if (element.position == tempdiv.id.slice(3, 5)) figure = element;
+                            if (element.position == tempdiv.id.slice(3, 5) && !element.captured) figure = element;
                         });
-                        if (figure.color != this.color && !figure.captured) {
+                        if (figure.color != this.color) {
                             tempdiv.classList.add("highlighted");
                             board.Highlighted.push(tempdiv);
                         }

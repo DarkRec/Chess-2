@@ -93,16 +93,19 @@ class Board {
     PlacePawns() {
         for (var i in board.PawnList) {
             if (!board.PawnList[i].captured) {
-                var PawnInfo = board.PawnList[i];
-                var pawn = document.createElement("img");
-                pawn.className = PawnInfo.type;
-                pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
-                pawn.onclick = function () {
-                    board.PawnFunction(this);
-                };
-                $("#Box" + PawnInfo.position).append(pawn);
+                board.CreatePawn(board.PawnList[i]);
             }
         }
+    }
+
+    CreatePawn(PawnInfo) {
+        var pawn = document.createElement("img");
+        pawn.className = PawnInfo.type;
+        pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
+        pawn.onclick = function () {
+            board.PawnFunction(this);
+        };
+        $("#Box" + PawnInfo.position).append(pawn);
     }
 
     BoardReload() {

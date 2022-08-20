@@ -8,6 +8,7 @@ var board;
 
 var pawn;
 var fish;
+var fishqueen;
 var rook;
 var monke;
 var elephant;
@@ -21,6 +22,7 @@ $(document).ready(function () {
 
     pawn = new Pawn();
     fish = new Fish();
+    fishqueen = new FishQueen();
     rook = new Rook();
     monke = new Monke();
     elephant = new Elephant();
