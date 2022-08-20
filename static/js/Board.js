@@ -96,10 +96,6 @@ class Board {
         });
     }
 
-    Capture(capturedPawn) {
-        ui.move(capturedPawn.parentElement);
-    }
-
     PlacePawns() {
         for (var i in board.PawnList) {
             if (!board.PawnList[i].captured) {
@@ -108,25 +104,42 @@ class Board {
                 pawn.className = PawnInfo.type;
                 pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
                 pawn.onclick = function () {
-                    try {
-                        $(".selected")[0].classList.remove("selected");
-                    } catch {}
-                    this.classList.add("selected");
-                    board.Highlighted.forEach((element) => {
-                        var el = element.id.slice(3, 5);
-                        document.getElementById("Box" + el).classList.remove("highlighted");
-                        if (this.parentElement && this.parentElement == element) board.Capture(this.parentElement);
-                    });
-                    board.Highlighted = [];
-                    for (var j in board.PawnList) {
-                        if (!board.PawnList[j].captured && this.parentElement != null && board.PawnList[j].position == this.parentElement.id.slice(3, 5)) {
-                            if (ui.CurrentPawn == undefined || ui.CurrentPawn.color == this.src.split("/")[this.src.split("/").length - 2])
-                                board.PawnList[j].movement();
-                        }
-                    }
+                    board.PawnFunction(this);
                 };
                 $("#Box" + PawnInfo.position).append(pawn);
             }
+        }
+    }
+
+    BoardReload() {
+        //PlacePawnsFromPawnList
+        let boardDiv = $(".BoardField");
+        for (var i = 0; i < boardDiv.length; i++) {
+            $("#" + boardDiv[i].id).empty();
+        }
+        this.PlacePawns();
+    }
+
+    PawnFunction(DIV) {
+        try {
+            $(".selected")[0].classList.remove("selected");
+        } catch {}
+        DIV.classList.add("selected");
+        board.Highlighted.forEach((element) => {
+            var el = element.id.slice(3, 5);
+            document.getElementById("Box" + el).classList.remove("highlighted");
+            if (DIV.parentElement && DIV.parentElement == element) board.Capture(DIV.parentElement);
+        });
+        board.Highlighted = [];
+        for (var j in board.PawnList) {
+            try {
+                if (
+                    !board.PawnList[j].captured &&
+                    board.PawnList[j].position == DIV.parentElement.id.slice(3, 5) &&
+                    (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
+                )
+                    board.PawnList[j].movement();
+            } catch {}
         }
     }
 
