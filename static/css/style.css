@@ -17,8 +17,7 @@ body {
     width: 64px;
     display: inline-block;
     float: left;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-        sans-serif;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .InfoField:hover {
@@ -44,6 +43,10 @@ body {
 
 .highlighted {
     background-color: red;
+}
+
+.selected {
+    background-color: green;
 }
 
 .BoardField img:hover {

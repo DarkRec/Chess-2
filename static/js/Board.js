@@ -22,10 +22,10 @@ class Board {
             },
             Black: {
                 Fishes: {
-                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7", "D3", "E3", "H8"],
+                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7", "D3", "E3"],
                     name: "fish",
                 },
-                Rooks: { position: ["A8"], name: "rook" },
+                Rooks: { position: ["A8", "H8"], name: "rook" },
                 Monkeys: { position: ["B8", "G8"], name: "monke" },
                 Elephants: {
                     position: ["C7", "F7"],
@@ -36,6 +36,7 @@ class Board {
             },
         };
         this.PawnColor = "White";
+        this.capturing = false;
     }
 
     boardGenerate() {
@@ -100,7 +101,6 @@ class Board {
     }
 
     PlacePawns() {
-        console.log(board.PawnList);
         for (var i in board.PawnList) {
             if (!board.PawnList[i].captured) {
                 var PawnInfo = board.PawnList[i];
@@ -110,30 +110,30 @@ class Board {
                 pawn.onclick = function () {
                     try {
                         $(".selected")[0].classList.remove("selected");
-                    } catch { }
+                    } catch {}
                     this.classList.add("selected");
                     board.Highlighted.forEach((element) => {
                         var el = element.id.slice(3, 5);
                         document.getElementById("Box" + el).classList.remove("highlighted");
-                        if (this.parentElement && this.parentElement == element) {
-                            $("#Box" + ui.CurrentPawn.position)[0].children[0].classList.add("selected");
-                            for (var j in board.PawnList) {
-                                if (board.PawnList[j].position == this.parentElement.id.slice(3, 5)) board.PawnList[j].captured = true;
-                            }
-                            ui.move(this.parentElement);
-                        }
+                        if (this.parentElement && this.parentElement == element) board.Capture(this.parentElement);
                     });
                     board.Highlighted = [];
                     for (var j in board.PawnList) {
                         if (!board.PawnList[j].captured && this.parentElement != null && board.PawnList[j].position == this.parentElement.id.slice(3, 5)) {
-                            if (ui.CurrentPawn == undefined || ui.CurrentPawn.color == this.src.split("/")[this.src.split("/").length - 2]) {
+                            if (ui.CurrentPawn == undefined || ui.CurrentPawn.color == this.src.split("/")[this.src.split("/").length - 2])
                                 board.PawnList[j].movement();
-                            }
                         }
                     }
                 };
                 $("#Box" + PawnInfo.position).append(pawn);
             }
         }
+    }
+
+    Capture(Pawn) {
+        board.capturing = true;
+        $("#Box" + ui.CurrentPawn.position)[0].children[0].classList.add("selected");
+        for (var j in board.PawnList) if (board.PawnList[j].position == Pawn.id.slice(3, 5)) board.PawnList[j].captured = true;
+        ui.move(Pawn);
     }
 }

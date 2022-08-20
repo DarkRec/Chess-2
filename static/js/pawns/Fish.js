@@ -19,46 +19,30 @@ class Fish extends Pawn {
         ui.CurrentPawn = this;
         var tempdiv;
         var figure;
+        var tempRow;
         //if (this.color == board.PawnColor)
-        for (let row = 1; row >= 0; row--)
-            for (let col = -1; col < 2; col++) {
-                if (this.color == "White") {
-                    try {
-                        tempdiv = document.getElementById("Box" + String.fromCharCode(this.position.charCodeAt(0) + col) + (parseInt(this.position.substr(1)) + row));
-                        if (tempdiv.childElementCount == 0) {
-                            tempdiv.classList.add("highlighted");
-                            board.Highlighted.push(tempdiv);
-                        } else {
-                            board.PawnList.forEach((element) => {
-                                if (element.position == tempdiv.id.slice(3, 5)) {
-                                    figure = element;
-                                }
-                            });
-                            if (figure.color == "Black" && figure.captured == false && col != 0 && row != 0) {
-                                tempdiv.classList.add("highlighted");
-                                board.Highlighted.push(tempdiv);
-                            }
-                        }
-                    } catch { }
-                } else {
-                    try {
-                        tempdiv = document.getElementById("Box" + String.fromCharCode(this.position.charCodeAt(0) + col) + (parseInt(this.position.substr(1)) - row));
-                        if (tempdiv.childElementCount == 0) {
-                            tempdiv.classList.add("highlighted");
-                            board.Highlighted.push(tempdiv);
-                        } else {
-                            board.PawnList.forEach((element) => {
-                                if (element.position == tempdiv.id.slice(3, 5)) {
-                                    figure = element;
-                                }
-                            });
-                            if (figure.color == "White" && figure.captured == false && col != 0 && row != 0) {
-                                tempdiv.classList.add("highlighted");
-                                board.Highlighted.push(tempdiv);
-                            }
-                        }
-                    } catch { }
-                }
+        for (let row = 1; row >= 0; row--) {
+            tempRow = row;
+            if (this.color == "Black") {
+                tempRow *= -1;
             }
+            for (let col = -1; col < 2; col++) {
+                try {
+                    tempdiv = $("#Box" + String.fromCharCode(this.position.charCodeAt(0) + col) + (parseInt(this.position.substr(1)) + tempRow))[0];
+                    if (tempdiv.childElementCount == 0) {
+                        tempdiv.classList.add("highlighted");
+                        board.Highlighted.push(tempdiv);
+                    } else {
+                        board.PawnList.forEach((element) => {
+                            if (element.position == tempdiv.id.slice(3, 5)) figure = element;
+                        });
+                        if (figure.color != this.color && !figure.captured && col != 0 && row != 0) {
+                            tempdiv.classList.add("highlighted");
+                            board.Highlighted.push(tempdiv);
+                        }
+                    }
+                } catch {}
+            }
+        }
     }
 }
