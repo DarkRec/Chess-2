@@ -32,7 +32,7 @@ class Rook extends Pawn {
             }
         }
     }
-    passive(id) {
+    passive(id, color) {
         for (let num = -3; num < 4; num += 2) {
             try {
                 var Prey;
@@ -40,19 +40,23 @@ class Rook extends Pawn {
                     if (
                         element.position == String.fromCharCode(id.charCodeAt(0) + Math.round(num % 3)) + (parseInt(id.substr(1)) + Math.round(num / 3)) &&
                         !element.captured
-                    )
+                    ) {
                         Prey = element;
+                        if (Prey.color != color) {
+                            if (Prey.type == "king" || Prey.type == "queen") {
+                                board.imprisoning = true;
+                                Prey.imprisonment();
+                                $("#Box" + Prey.position).empty()
+                            }
+                            else {
+                                Prey.captured = true;
+                                $("#Box" + Prey.position).empty();
+                            }
+                        }
+                    }
                 });
-                if (Prey.type == "king" || Prey.type == "queen") {
-                    board.imprisoning = true;
-                    Prey.imprisonment();
-                }
-                if (Prey.color == ui.CurrentPawn.color) {
-                    Prey.captured = true;
-                    $("#Box" + Prey.position).empty();
-                    console.log(Prey);
-                }
-            } catch {}
+
+            } catch { }
         }
     }
 }

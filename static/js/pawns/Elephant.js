@@ -35,7 +35,7 @@ class Elephant extends Pawn {
                             board.Highlighted.push(tempdiv);
                         }
                     }
-                } catch {}
+                } catch { }
             }
     }
     charge(start, destination) {
@@ -50,6 +50,10 @@ class Elephant extends Pawn {
                                 element.imprisonment();
                             }
                             element.captured = true;
+                            let temp = element
+                            rook.RookList.forEach((element) => {
+                                if (!element.captured && temp.color == element.color) rook.passive(element.position, temp.color);
+                            });
                             if (element.color != ui.CurrentPawn.color) board.capturing = true;
                         }
                     });

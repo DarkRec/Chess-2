@@ -38,7 +38,7 @@ class Fish extends Pawn {
                             board.Highlighted.push(tempdiv);
                         }
                     }
-                } catch {}
+                } catch { }
             }
         }
     }
