@@ -121,7 +121,7 @@ class Board {
         if (!board.imprisoning) {
             try {
                 $(".selected")[0].classList.remove("selected");
-            } catch {}
+            } catch { }
             DIV.classList.add("selected");
             board.Highlighted.forEach((element) => {
                 var el = element.id.slice(3, 5);
@@ -137,7 +137,7 @@ class Board {
                         (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
                     )
                         board.PawnList[j].movement();
-                } catch {}
+                } catch { }
             }
         }
     }
