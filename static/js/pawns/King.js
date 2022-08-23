@@ -9,13 +9,10 @@ class King extends Pawn {
 
     PlaceKings() {
         var Kings = board.PawnsPositions.White.Kings;
-        for (var i in Kings.position) {
-            board.PawnList.push(new King(Kings.position[i], Kings.name, "White"));
-        }
+        for (var i in Kings.position) board.PawnList.push(new King(Kings.position[i], Kings.name, "White"));
+
         var Kings = board.PawnsPositions.Black.Kings;
-        for (var i in Kings.position) {
-            board.PawnList.push(new King(Kings.position[i], Kings.name, "Black"));
-        }
+        for (var i in Kings.position) board.PawnList.push(new King(Kings.position[i], Kings.name, "Black"));
     }
 
     movement() {
@@ -56,6 +53,7 @@ class King extends Pawn {
                 var pawn = document.createElement("img");
                 pawn.className = Prisoner.type;
                 pawn.src = "img/" + Prisoner.color + "/" + Prisoner.type + ".png";
+                if (Prisoner.banana) pawn.src = "img/" + Prisoner.color + "/bananaking.png";
                 $(this).append(pawn);
                 $(".prisonOpen").off("click.prisonOpen");
                 $(".prisonOpen").removeClass("prisonOpen");

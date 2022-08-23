@@ -5,7 +5,6 @@
 class Ui {
     constructor() {
         this.CurrentPawn;
-        this.HitPawn;
     }
 
     move(NewPos) {
@@ -13,7 +12,7 @@ class Ui {
         board.PawnList.forEach((element) => {
             try {
                 if (element.position == ui.CurrentPawn.position && element.captured == false) {
-                    let elephanttemp = element.position
+                    let elephanttemp = element.position;
                     element.position = NewPos.id.substr(3);
                     //$("#NodesToMove").detach().appendTo('#DestinationContainerNode')
                     $(".selected")
@@ -34,7 +33,6 @@ class Ui {
                             let FishUpgrade = new FishQueen(ui.CurrentPawn.position, "FishQueen", ui.CurrentPawn.color);
                             board.PawnList.push(FishUpgrade);
                             board.CreatePawn(FishUpgrade);
-                            console.log(FishUpgrade);
                         }
                     if (board.capturing)
                         rook.RookList.forEach((element) => {
@@ -44,15 +42,32 @@ class Ui {
                     board.capturing = false;
                     ui.CurrentPawn = undefined;
                 }
-            } catch { }
+            } catch {}
         });
         try {
             $(".selected")[0].classList.remove("selected");
-        } catch { }
-        //if (board.PawnColor == "White") board.PawnColor = "Black";
-        //else board.PawnColor = "White";
+        } catch {}
+    }
+
+    openNav() {
+        $("#mySidebar")[0].style.width = "250px";
+        $("#main-sidebar")[0].style.width = "0px";
+    }
+
+    closeNav() {
+        $("#mySidebar")[0].style.width = "0";
+        $("#main-sidebar")[0].style.width = "50px";
     }
 }
-$(document).on("click", ".highlighted", function () {
-    ui.move(this);
+$(document).on("click", ".highlighted", function (e) {
+    if (e.target.childElementCount == 0) ui.move(this);
+    else board.PawnFunction(e.target.children[0]);
+});
+
+$(document).on("click", ".BoardField", function (e) {
+    if (e.target.localName == "div") $(".highlighted").removeClass("highlighted");
+});
+
+$(document).bind("contextmenu", function (e) {
+    return false;
 });

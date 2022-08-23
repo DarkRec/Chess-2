@@ -15,6 +15,8 @@ var elephant;
 var king;
 var queen;
 
+var dev;
+
 $(document).ready(function () {
     net = new Net(); // utworzenie obiektu klasy Net
     ui = new Ui(); // utworzenie obiektu klasy Ui
@@ -28,4 +30,6 @@ $(document).ready(function () {
     elephant = new Elephant();
     king = new King();
     queen = new Queen();
+
+    dev = new Dev();
 });

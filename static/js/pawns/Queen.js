@@ -8,13 +8,9 @@ class Queen extends Pawn {
 
     PlaceQueens() {
         var Queens = board.PawnsPositions.White.Queens;
-        for (var i in Queens.position) {
-            board.PawnList.push(new Queen(Queens.position[i], Queens.name, "White"));
-        }
+        for (var i in Queens.position) board.PawnList.push(new Queen(Queens.position[i], Queens.name, "White"));
         var Queens = board.PawnsPositions.Black.Queens;
-        for (var i in Queens.position) {
-            board.PawnList.push(new Queen(Queens.position[i], Queens.name, "Black"));
-        }
+        for (var i in Queens.position) board.PawnList.push(new Queen(Queens.position[i], Queens.name, "Black"));
     }
     movement() {
         ui.CurrentPawn = this;
@@ -25,7 +21,9 @@ class Queen extends Pawn {
                 else
                     for (let range = 1; range < 8; range++)
                         try {
-                            tempdiv = $("#Box" + String.fromCharCode(this.position.charCodeAt(0) + col * range) + (parseInt(this.position.substr(1)) + row * range))[0];
+                            tempdiv = $(
+                                "#Box" + String.fromCharCode(this.position.charCodeAt(0) + col * range) + (parseInt(this.position.substr(1)) + row * range)
+                            )[0];
                             if (tempdiv.childElementCount == 0) {
                                 tempdiv.classList.add("highlighted");
                                 board.Highlighted.push(tempdiv);

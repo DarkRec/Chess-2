@@ -7,14 +7,11 @@ class Fish extends Pawn {
 
     PlaceFishes() {
         var Fishes = board.PawnsPositions.White.Fishes;
-        for (var i in Fishes.position) {
-            board.PawnList.push(new Fish(Fishes.position[i], Fishes.name, "White"));
-        }
+        for (var i in Fishes.position) board.PawnList.push(new Fish(Fishes.position[i], Fishes.name, "White"));
         var Fishes = board.PawnsPositions.Black.Fishes;
-        for (var i in Fishes.position) {
-            board.PawnList.push(new Fish(Fishes.position[i], Fishes.name, "Black"));
-        }
+        for (var i in Fishes.position) board.PawnList.push(new Fish(Fishes.position[i], Fishes.name, "Black"));
     }
+
     movement() {
         ui.CurrentPawn = this;
         var tempdiv, figure, tempRow;
@@ -38,7 +35,7 @@ class Fish extends Pawn {
                             board.Highlighted.push(tempdiv);
                         }
                     }
-                } catch { }
+                } catch {}
             }
         }
     }

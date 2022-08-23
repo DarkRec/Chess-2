@@ -33,7 +33,7 @@ class Board {
             },
             Black: {
                 Fishes: {
-                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7", "D3", "E3"],
+                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7"],
                     name: "fish",
                 },
                 Rooks: { position: ["A8", "H8"], name: "rook" },
@@ -75,10 +75,10 @@ class Board {
                     if ((+col + +row) % 2 == 0) Box.classList.add("blue");
                     else Box.classList.add("white");
                 } else Box.classList.add("EmptyField");
-                //  Box.innerText = Field;
                 $("#Row" + row).append(Box);
             }
         }
+
         $(document).ready(function () {
             fish.PlaceFishes();
             rook.PlaceRooks();
@@ -102,6 +102,7 @@ class Board {
         var pawn = document.createElement("img");
         pawn.className = PawnInfo.type;
         pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
+        if (PawnInfo.type == "king" && PawnInfo.banana) pawn.src = "img/" + PawnInfo.color + "/bananaking.png";
         pawn.onclick = function () {
             board.PawnFunction(this);
         };
@@ -109,7 +110,6 @@ class Board {
     }
 
     BoardReload() {
-        //PlacePawnsFromPawnList
         let boardDiv = $(".BoardField");
         for (var i = 0; i < boardDiv.length; i++) {
             $("#" + boardDiv[i].id).empty();
@@ -118,10 +118,11 @@ class Board {
     }
 
     PawnFunction(DIV) {
+        console.log(DIV);
         if (!board.imprisoning) {
             try {
                 $(".selected")[0].classList.remove("selected");
-            } catch { }
+            } catch {}
             DIV.classList.add("selected");
             board.Highlighted.forEach((element) => {
                 var el = element.id.slice(3, 5);
@@ -137,7 +138,7 @@ class Board {
                         (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
                     )
                         board.PawnList[j].movement();
-                } catch { }
+                } catch {}
             }
         }
     }

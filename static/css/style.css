@@ -4,6 +4,7 @@ body {
 
 #board {
     width: 768px;
+    margin: auto;
     /*border: 2px solid black;*/
 }
 
@@ -15,6 +16,7 @@ body {
     width: 64px;
     float: left;
 }
+
 .InfoField {
     background-color: dodgerblue;
     font-size: 50px;
@@ -32,8 +34,8 @@ body {
 .BoardField,
 .PrisonField {
     background-color: white;
-    outline: 1px solid black;
     display: inline-block;
+    position: relative;
 }
 
 .white {
@@ -48,12 +50,13 @@ body {
     background-color: purple;
 }
 
-.highlighted {
-    background-color: red;
-}
-
-.selected {
+.highlighted::before {
+    position: absolute;
+    content: '';
+    width: 64px;
+    height: 64px;
     background-color: green;
+    opacity: 0.5;
 }
 
 .BoardField img:hover {

@@ -7,18 +7,13 @@ class Elephant extends Pawn {
 
     PlaceElephants() {
         var Elephants = board.PawnsPositions.White.Elephants;
-        for (var i in Elephants.position) {
-            board.PawnList.push(new Elephant(Elephants.position[i], Elephants.name, "White"));
-        }
+        for (var i in Elephants.position) board.PawnList.push(new Elephant(Elephants.position[i], Elephants.name, "White"));
         var Elephants = board.PawnsPositions.Black.Elephants;
-        for (var i in Elephants.position) {
-            board.PawnList.push(new Elephant(Elephants.position[i], Elephants.name, "Black"));
-        }
+        for (var i in Elephants.position) board.PawnList.push(new Elephant(Elephants.position[i], Elephants.name, "Black"));
     }
     movement() {
         ui.CurrentPawn = this;
         var tempdiv, figure;
-        //if (this.color == board.PawnColor)
         for (let row = -2; row <= 2; row += 4)
             for (let col = -2; col <= 2; col += 4) {
                 try {
@@ -35,7 +30,7 @@ class Elephant extends Pawn {
                             board.Highlighted.push(tempdiv);
                         }
                     }
-                } catch { }
+                } catch {}
             }
     }
     charge(start, destination) {
@@ -50,7 +45,7 @@ class Elephant extends Pawn {
                                 element.imprisonment();
                             }
                             element.captured = true;
-                            let temp = element
+                            let temp = element;
                             rook.RookList.forEach((element) => {
                                 if (!element.captured && temp.color == element.color) rook.passive(element.position, temp.color);
                             });
