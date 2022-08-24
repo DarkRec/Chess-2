@@ -20,6 +20,7 @@ class Monke extends Pawn {
         for (let monketab = 0; monketab <= monke.howmanymonke; monketab++) {
             this.monkes(monke.jump[monketab]);
         }
+        this.unprison()
         for (let col = -1; col <= 1; col++) {
             for (let row = -1; row <= 1; row++) {
                 try {
@@ -35,7 +36,7 @@ class Monke extends Pawn {
                             }
                         }
                     }
-                } catch {}
+                } catch { }
             }
         }
     }
@@ -66,9 +67,35 @@ class Monke extends Pawn {
                             }
                         }
                     }
-                } catch {}
+                } catch { }
             }
         }
         //console.log(monke.jump)
+    }
+
+    unprison() {
+        board.PawnList.forEach((element) => {
+            try {
+                if (element.banana) {
+                    if (element.position == "Prison1" && this.color != "White") {
+                        if (monke.jump.includes("C5") && monke.jump.includes("A5") && $("#BoxB5")[0].children[0]) {
+                            $("#Prison1")[0].classList.add("prisonbreak")
+                        }
+                    } else if (element.position == "Prison2" && this.color != "White") {
+                        if (monke.jump.includes("C4") && monke.jump.includes("A4") && $("#BoxB4")[0].children[0]) {
+                            $("#Prison2")[0].classList.add("prisonbreak")
+                        }
+                    } else if (element.position == "Prison3" && this.color == "White") {
+                        if (monke.jump.includes("F5") && monke.jump.includes("H5") && $("#BoxG5")[0].children[0]) {
+                            $("#Prison3")[0].classList.add("prisonbreak")
+                        }
+                    } else if (element.position == "Prison4" && this.color == "White") {
+                        if (monke.jump.includes("F4") && monke.jump.includes("H4") && $("#BoxG4")[0].children[0]) {
+                            $("#Prison4")[0].classList.add("prisonbreak")
+                        }
+                    }
+                }
+            } catch { }
+        })
     }
 }

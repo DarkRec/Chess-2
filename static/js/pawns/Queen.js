@@ -60,6 +60,7 @@ class Queen extends Pawn {
                 $(".prisonOpen").off("click.prisonOpen");
                 $(".prisonOpen").removeClass("prisonOpen");
                 board.imprisoning = false;
+                board.win()
             }
         });
     }

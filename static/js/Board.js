@@ -122,7 +122,7 @@ class Board {
         if (!board.imprisoning) {
             try {
                 $(".selected")[0].classList.remove("selected");
-            } catch {}
+            } catch { }
             DIV.classList.add("selected");
             board.Highlighted.forEach((element) => {
                 var el = element.id.slice(3, 5);
@@ -138,7 +138,7 @@ class Board {
                         (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
                     )
                         board.PawnList[j].movement();
-                } catch {}
+                } catch { }
             }
         }
     }
@@ -154,5 +154,13 @@ class Board {
                 } else board.PawnList[j].captured = true;
             }
         ui.move(Pawn);
+    }
+
+    win() {
+        if ($("#Prison1")[0].children[0] && $("#Prison2")[0].children[0]) {
+            alert("white win!")
+        } else if ($("#Prison3")[0].children[0] && $("#Prison4")[0].children[0]) {
+            alert("black win!")
+        }
     }
 }

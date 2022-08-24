@@ -67,3 +67,12 @@ body {
     height: 64px;
     position: relative;
 }
+
+.prisonbreak::before {
+    position: absolute;
+    content: '';
+    width: 64px;
+    height: 64px;
+    background-color: purple;
+    opacity: 0.5;
+}

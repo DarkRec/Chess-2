@@ -42,11 +42,11 @@ class Ui {
                     board.capturing = false;
                     ui.CurrentPawn = undefined;
                 }
-            } catch {}
+            } catch { }
         });
         try {
             $(".selected")[0].classList.remove("selected");
-        } catch {}
+        } catch { }
     }
 
     openNav() {
@@ -62,6 +62,47 @@ class Ui {
 $(document).on("click", ".highlighted", function (e) {
     if (e.target.childElementCount == 0) ui.move(this);
     else board.PawnFunction(e.target.children[0]);
+});
+
+$(document).on("click", ".prisonbreak", function () {
+    board.PawnList.forEach((element) => {
+        if (element.banana) {
+            if (this.id == "Prison1" && element.position == "Prison1") {
+                ui.CurrentPawn.position = "C5"
+                element.position = "A5"
+                element.banana = false
+                $("#Prison1").empty()
+                board.BoardReload()
+            }
+            else if (this.id == "Prison2" && element.position == "Prison2") {
+                ui.CurrentPawn.position = "C4"
+                element.position = "A4"
+                element.banana = false
+                $("#Prison2").empty()
+                board.BoardReload()
+            }
+            else if (this.id == "Prison3" && element.position == "Prison3") {
+                ui.CurrentPawn.position = "F5"
+                element.position = "H5"
+                element.banana = false
+                $("#Prison3").empty()
+                board.BoardReload()
+            }
+            else if (this.id == "Prison4" && element.position == "Prison4") {
+                ui.CurrentPawn.position = "F4"
+                element.position = "H4"
+                element.banana = false
+                $("#Prison4").empty()
+                board.BoardReload()
+            }
+        }
+    })
+    board.Highlighted.forEach((element) => {
+        var el = element.id.slice(3, 5);
+        document.getElementById("Box" + el).classList.remove("highlighted");
+    });
+    board.Highlighted = [];
+    $(".prisonbreak")[0].classList.remove("prisonbreak");
 });
 
 $(document).on("click", ".BoardField", function (e) {

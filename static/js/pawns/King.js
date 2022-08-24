@@ -34,7 +34,7 @@ class King extends Pawn {
                             board.Highlighted.push(tempdiv);
                         }
                     }
-                } catch {}
+                } catch { }
             }
     }
 
@@ -58,7 +58,9 @@ class King extends Pawn {
                 $(".prisonOpen").off("click.prisonOpen");
                 $(".prisonOpen").removeClass("prisonOpen");
                 board.imprisoning = false;
+                board.win()
             }
         });
     }
+
 }
