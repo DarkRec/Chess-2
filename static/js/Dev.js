@@ -8,17 +8,20 @@ class Dev {
     }
 
     Controlls() {
+        $("<div/>", {
+            id: "switch",
+        }).appendTo("#controllPanel");
         $("<label/>", {
             for: "DevMode",
             text: "DevMode",
-        }).appendTo("#controllPanel");
+        }).appendTo("#switch");
 
         $("<input/>", {
             type: "checkbox",
             name: "DevMode",
             id: "DevModeSwitch",
             class: "switch_1",
-        }).appendTo("#controllPanel");
+        }).appendTo("#switch");
 
         $("#DevModeSwitch").on("change", function (e) {
             if (this.checked) {
@@ -81,5 +84,18 @@ class Dev {
                 }).appendTo(div2);
             }
         });
+
+        $("<button/>").appendTo("#controllPanel");
+        var span = document.createElement("span");
+        span.innerText = "Reset";
+        span.onclick = function () {
+            net.ResetPawns();
+        };
+        $("button").append(span);
+        var iDiv = document.createElement("i");
+        iDiv.onclick = function () {
+            net.ResetPawns();
+        };
+        $("button").append(iDiv);
     }
 }

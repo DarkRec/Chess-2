@@ -1,3 +1,14 @@
+:root {
+    --glowny-kolor: slategray;
+    --plansza-bialy:white;
+    --plansza-niebieski:deepskyblue;
+    --plansza-default:white;
+    --plansza-obramowanie:dodgerblue;
+    --prison:purple;
+    --highlighted:greenyellow;
+    --glowny-motyw:deepskyblue;
+  }
+
 body {
     background-color: slategray;
 }
@@ -18,7 +29,7 @@ body {
 }
 
 .InfoField {
-    background-color: dodgerblue;
+    background-color: var(--plansza-obramowanie);
     font-size: 50px;
     text-align: center;
     text-overflow: hidden;
@@ -33,30 +44,33 @@ body {
 
 .BoardField,
 .PrisonField {
-    background-color: white;
+    background-color: var(--plansza-default);
     display: inline-block;
     position: relative;
 }
 
 .white {
-    background-color: white;
+    background-color: var(--plansza-bialy);
 }
 
 .blue {
-    background-color: deepskyblue;
+    background-color: var(--plansza-niebieski);
 }
 
-.prisonOpen {
-    background-color: purple;
-}
-
-.highlighted::before {
+.prisonOpen::before, .highlighted::before, .prisonbreak::before{
     position: absolute;
     content: '';
     width: 64px;
     height: 64px;
-    background-color: green;
-    opacity: 0.5;
+}
+
+.prisonOpen::before {
+    background: radial-gradient(var(--prison) 0% ,transparent 75%);
+}
+
+.highlighted::before {
+    background: radial-gradient(var(--highlighted) 10%,transparent 70%);
+    opacity: 0.6;
 }
 
 .BoardField img:hover {
@@ -69,10 +83,6 @@ body {
 }
 
 .prisonbreak::before {
-    position: absolute;
-    content: '';
-    width: 64px;
-    height: 64px;
-    background-color: purple;
+    background-color: var(--prison);
     opacity: 0.5;
 }

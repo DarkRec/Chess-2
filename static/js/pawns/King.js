@@ -1,21 +1,21 @@
 //console.log("wczytano plik King.js");
 class King extends Pawn {
-    constructor(position, type, color) {
+    constructor(position, type, color, banana, prisoned) {
         //console.log("konstruktor klasy King");
         super(position, type, color);
         this.prisoned = false;
-        this.banana = true;
+        this.banana = banana;
+        this.prisoned = prisoned;
     }
 
     PlaceKings() {
-        var Kings = board.PawnsPositions.White.Kings;
-        for (var i in Kings.position) board.PawnList.push(new King(Kings.position[i], Kings.name, "White"));
-
-        var Kings = board.PawnsPositions.Black.Kings;
-        for (var i in Kings.position) board.PawnList.push(new King(Kings.position[i], Kings.name, "Black"));
+        board.PawnsPositions.forEach(function (pawn) {
+            if (pawn.type == "king") board.PawnList.push(new King(pawn.position, pawn.type, pawn.color, pawn.banana, pawn.prisoned));
+        });
     }
 
     movement() {
+        this.prisoned = true;
         ui.CurrentPawn = this;
         var tempdiv, figure;
         for (let row = -1; row < 2; row++)
@@ -34,33 +34,45 @@ class King extends Pawn {
                             board.Highlighted.push(tempdiv);
                         }
                     }
-                } catch { }
+                } catch {}
             }
     }
 
     imprisonment() {
         var Prisoner = this;
         if (this.color == "White") {
-            if ($("#Prison3")[0].childElementCount == 0) $("#Prison3")[0].classList.add("prisonOpen");
-            if ($("#Prison4")[0].childElementCount == 0) $("#Prison4")[0].classList.add("prisonOpen");
+            if ($("#Prison3")[0].childElementCount == 0) {
+                $("#Prison3")[0].classList.add("prisonOpen");
+                this.position = "Prison3";
+            }
+            if ($("#Prison4")[0].childElementCount == 0) {
+                $("#Prison4")[0].classList.add("prisonOpen");
+                this.position = "Prison4";
+            }
         } else {
-            if ($("#Prison1")[0].childElementCount == 0) $("#Prison1")[0].classList.add("prisonOpen");
-            if ($("#Prison2")[0].childElementCount == 0) $("#Prison2")[0].classList.add("prisonOpen");
+            if ($("#Prison1")[0].childElementCount == 0) {
+                $("#Prison1")[0].classList.add("prisonOpen");
+                this.position = "Prison1";
+            }
+            if ($("#Prison2")[0].childElementCount == 0) {
+                $("#Prison2")[0].classList.add("prisonOpen");
+                this.position = "Prison2";
+            }
+            net.UpdatePawns();
         }
         $(".prisonOpen").on("click.prisonOpen", function () {
             if (board.imprisoning) {
                 Prisoner.position = this.id;
                 var pawn = document.createElement("img");
                 pawn.className = Prisoner.type;
-                pawn.src = "img/" + Prisoner.color + "/" + Prisoner.type + ".png";
-                if (Prisoner.banana) pawn.src = "img/" + Prisoner.color + "/bananaking.png";
+                pawn.src = "img/" + Prisoner.color + "/" + (Prisoner.banana ? "banana" : "") + Prisoner.type + ".png";
                 $(this).append(pawn);
                 $(".prisonOpen").off("click.prisonOpen");
                 $(".prisonOpen").removeClass("prisonOpen");
                 board.imprisoning = false;
-                board.win()
+                net.UpdatePawns();
+                board.win();
             }
         });
     }
-
 }

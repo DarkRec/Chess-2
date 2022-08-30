@@ -6,10 +6,9 @@ class Fish extends Pawn {
     }
 
     PlaceFishes() {
-        var Fishes = board.PawnsPositions.White.Fishes;
-        for (var i in Fishes.position) board.PawnList.push(new Fish(Fishes.position[i], Fishes.name, "White"));
-        var Fishes = board.PawnsPositions.Black.Fishes;
-        for (var i in Fishes.position) board.PawnList.push(new Fish(Fishes.position[i], Fishes.name, "Black"));
+        board.PawnsPositions.forEach(function (pawn) {
+            if (pawn.type == "fish" && !pawn.captured) board.PawnList.push(new Fish(pawn.position, pawn.type, pawn.color));
+        });
     }
 
     movement() {

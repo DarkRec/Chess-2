@@ -5,6 +5,12 @@ class FishQueen extends Pawn {
         super(position, type, color);
     }
 
+    PlaceFishQueens() {
+        board.PawnsPositions.forEach(function (pawn) {
+            if (pawn.type == "fishqueen" && !pawn.captured) board.PawnList.push(new FishQueen(pawn.position, pawn.type, pawn.color));
+        });
+    }
+
     movement() {
         ui.CurrentPawn = this;
         var tempdiv, figure;
@@ -14,7 +20,9 @@ class FishQueen extends Pawn {
                 else
                     for (let range = 1; range < 8; range++)
                         try {
-                            tempdiv = $("#Box" + String.fromCharCode(this.position.charCodeAt(0) + col * range) + (parseInt(this.position.substr(1)) + row * range))[0];
+                            tempdiv = $(
+                                "#Box" + String.fromCharCode(this.position.charCodeAt(0) + col * range) + (parseInt(this.position.substr(1)) + row * range)
+                            )[0];
                             if (tempdiv.childElementCount == 0) {
                                 tempdiv.classList.add("highlighted");
                                 board.Highlighted.push(tempdiv);

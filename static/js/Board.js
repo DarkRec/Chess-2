@@ -16,36 +16,7 @@ class Board {
             ["", "C1", "B", "B", "B", "B", "B", "B", "B", "B", "C1", ""],
             ["", "C ", "CA", "CB", "CC", "CD", "CE", "CF", "CG", "CH", "C ", ""],
         ];
-        this.PawnsPositions = {
-            White: {
-                Fishes: {
-                    position: ["C1", "F1", "A2", "B2", "D2", "E2", "G2", "H2"],
-                    name: "fish",
-                },
-                Rooks: { position: ["A1", "H1"], name: "rook" },
-                Monkeys: { position: ["B1", "G1"], name: "monke" },
-                Elephants: {
-                    position: ["C2", "F2"],
-                    name: "elephant",
-                },
-                Kings: { position: ["E1"], name: "king" },
-                Queens: { position: ["D1"], name: "queen" },
-            },
-            Black: {
-                Fishes: {
-                    position: ["C8", "F8", "A7", "B7", "D7", "E7", "G7", "H7"],
-                    name: "fish",
-                },
-                Rooks: { position: ["A8", "H8"], name: "rook" },
-                Monkeys: { position: ["B8", "G8"], name: "monke" },
-                Elephants: {
-                    position: ["C7", "F7"],
-                    name: "elephant",
-                },
-                Kings: { position: ["E8"], name: "king" },
-                Queens: { position: ["D8"], name: "queen" },
-            },
-        };
+        this.PawnsPositions = [];
         this.PawnColor = "White";
         this.capturing = false;
         this.imprisoning = false;
@@ -78,57 +49,62 @@ class Board {
                 $("#Row" + row).append(Box);
             }
         }
+        net.GetPawns();
+    }
 
-        $(document).ready(function () {
-            fish.PlaceFishes();
-            rook.PlaceRooks();
-            monke.PlaceMonkeys();
-            elephant.PlaceElephants();
-            king.PlaceKings();
-            queen.PlaceQueens();
-            board.PlacePawns();
-        });
+    CreatePawns() {
+        board.PawnList = [];
+        fish.PlaceFishes();
+        rook.PlaceRooks();
+        monke.PlaceMonkeys();
+        elephant.PlaceElephants();
+        king.PlaceKings();
+        queen.PlaceQueens();
+        fishqueen.PlaceFishQueens();
+        this.PlacePawns();
     }
 
     PlacePawns() {
-        for (var i in board.PawnList) {
-            if (!board.PawnList[i].captured) {
-                board.CreatePawn(board.PawnList[i]);
-            }
+        this.EmptyBoard();
+        for (var i in board.PawnList) if (!board.PawnList[i].captured) board.BuildPawn(board.PawnList[i]);
+    }
+
+    BuildPawn(PawnInfo) {
+        if (!PawnInfo.captured) {
+            var pawn = document.createElement("img");
+            pawn.className = PawnInfo.type;
+            pawn.src = "img/" + PawnInfo.color + "/" + (PawnInfo.banana ? "banana" : "") + PawnInfo.type + ".png";
+            pawn.onclick = function () {
+                board.PawnFunction(this);
+            };
+            if (PawnInfo.position[0] != "P") $("#Box" + PawnInfo.position).append(pawn);
+            else $("#" + PawnInfo.position).append(pawn);
         }
     }
 
-    CreatePawn(PawnInfo) {
-        var pawn = document.createElement("img");
-        pawn.className = PawnInfo.type;
-        pawn.src = "img/" + PawnInfo.color + "/" + PawnInfo.type + ".png";
-        if (PawnInfo.type == "king" && PawnInfo.banana) pawn.src = "img/" + PawnInfo.color + "/bananaking.png";
-        pawn.onclick = function () {
-            board.PawnFunction(this);
-        };
-        $("#Box" + PawnInfo.position).append(pawn);
-    }
-
-    BoardReload() {
+    EmptyBoard() {
         let boardDiv = $(".BoardField");
         for (var i = 0; i < boardDiv.length; i++) {
             $("#" + boardDiv[i].id).empty();
         }
-        this.PlacePawns();
+        boardDiv = $(".PrisonField");
+        for (var i = 0; i < boardDiv.length; i++) {
+            $("#" + boardDiv[i].id).empty();
+        }
     }
 
     PawnFunction(DIV) {
-        console.log(DIV);
         if (!board.imprisoning) {
             try {
                 $(".selected")[0].classList.remove("selected");
-            } catch { }
+            } catch {}
             DIV.classList.add("selected");
             board.Highlighted.forEach((element) => {
                 var el = element.id.slice(3, 5);
                 document.getElementById("Box" + el).classList.remove("highlighted");
                 if (DIV.parentElement && DIV.parentElement == element) board.Capture(DIV.parentElement);
             });
+            $(".prisonbreak").removeClass("prisonbreak");
             board.Highlighted = [];
             for (var j in board.PawnList) {
                 try {
@@ -138,7 +114,7 @@ class Board {
                         (ui.CurrentPawn == undefined || ui.CurrentPawn.color == DIV.src.split("/")[DIV.src.split("/").length - 2])
                     )
                         board.PawnList[j].movement();
-                } catch { }
+                } catch {}
             }
         }
     }
@@ -158,9 +134,9 @@ class Board {
 
     win() {
         if ($("#Prison1")[0].children[0] && $("#Prison2")[0].children[0]) {
-            alert("white win!")
+            alert("white win!");
         } else if ($("#Prison3")[0].children[0] && $("#Prison4")[0].children[0]) {
-            alert("black win!")
+            alert("black win!");
         }
     }
 }

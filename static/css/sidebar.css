@@ -17,37 +17,43 @@
 }
 
 
-.sidebar a,
-#control a,
-.sidebar section {
+.sidebar section{
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
-    color: deepskyblue;
+    color: var(--glowny-motyw);
     display: block;
     transition: 0.3s;
 }
 
-.sidebar input {
+#switch {
+    font-size: 25px;
+    margin: 0px 25px;
+    width: 110px;
+}
+
+#switch input {
     transition: 0.3s;
     overflow: hidden;
 }
 
-.sidebar label {
+#switch label {
     margin: 7px;
     overflow: hidden;
 }
 
-.sidebar div {
+.sidebar div{
     text-decoration: none;
     font-size: 20px;
-    color: deepskyblue;
+    color: var(--glowny-motyw);;
     display: block;
     transition: 0.3s;
+    margin: 0px 3px;
+    cursor: pointer;
 }
 
 .sidebar a:hover,
-#control a:hover {
+#control a:hover ,
+#switch a:hover{
     color: rgb(212, 239, 255);
 }
 
@@ -69,6 +75,11 @@
     position: absolute;
     right: 30px;
     top: 30px;
+    width: 12px;
+    height: 12px;
+    text-decoration: none;
+    color: var(--glowny-motyw);
+    transition: 0.3s;
 }
 
 input[type="text"] {
@@ -80,15 +91,15 @@ input[type="text"] {
     padding: 8px;
     box-sizing: border-box;
     transition: 0.3s;
-    color: deepskyblue;
+    color: var(--glowny-motyw);;
     font-size: 15px;
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
     font-weight: bold;
 }
 
 input[type="text"]:focus {
-    border-color: dodgerBlue;
-    box-shadow: 0 0 12px 0 dodgerBlue;
+    border-color: var(--glowny-motyw);;
+    box-shadow: 0 0 12px 0 var(--glowny-motyw);;
 }
 
 #color {
@@ -166,7 +177,7 @@ input[type="checkbox"].switch_1 {
 }
 
 input[type="checkbox"].switch_1:checked {
-    background: #0ebeff;
+    background: var(--glowny-motyw);
 }
 
 input[type="checkbox"].switch_1:after {
@@ -205,5 +216,5 @@ input[type="checkbox"].switch_1:checked:after {
     z-index: -1;
     transform: rotate(-4deg);
     border-radius: 10px;
-    background-image: linear-gradient(to right, #FFF, #00BFFF);
+    background-image: linear-gradient(to right, #FFF, var(--glowny-motyw));
 }

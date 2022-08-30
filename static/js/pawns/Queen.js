@@ -1,17 +1,17 @@
 //console.log("wczytano plik Queen.js");
 class Queen extends Pawn {
-    constructor(position, type, color) {
+    constructor(position, type, color, prisoned) {
         //console.log("konstruktor klasy Queen");
         super(position, type, color);
-        this.prisoned = false;
+        this.prisoned = prisoned;
     }
 
     PlaceQueens() {
-        var Queens = board.PawnsPositions.White.Queens;
-        for (var i in Queens.position) board.PawnList.push(new Queen(Queens.position[i], Queens.name, "White"));
-        var Queens = board.PawnsPositions.Black.Queens;
-        for (var i in Queens.position) board.PawnList.push(new Queen(Queens.position[i], Queens.name, "Black"));
+        board.PawnsPositions.forEach(function (pawn) {
+            if (pawn.type == "queen") board.PawnList.push(new Queen(pawn.position, pawn.type, pawn.color, pawn.prisoned));
+        });
     }
+
     movement() {
         ui.CurrentPawn = this;
         var tempdiv, figure;
@@ -44,23 +44,37 @@ class Queen extends Pawn {
     imprisonment() {
         var Prisoner = this;
         if (this.color == "White") {
-            if ($("#Prison3")[0].childElementCount == 0) $("#Prison3")[0].classList.add("prisonOpen");
-            if ($("#Prison4")[0].childElementCount == 0) $("#Prison4")[0].classList.add("prisonOpen");
+            if ($("#Prison3")[0].childElementCount == 0) {
+                $("#Prison3")[0].classList.add("prisonOpen");
+                this.position = "Prison3";
+            }
+            if ($("#Prison4")[0].childElementCount == 0) {
+                $("#Prison4")[0].classList.add("prisonOpen");
+                this.position = "Prison4";
+            }
         } else {
-            if ($("#Prison1")[0].childElementCount == 0) $("#Prison1")[0].classList.add("prisonOpen");
-            if ($("#Prison2")[0].childElementCount == 0) $("#Prison2")[0].classList.add("prisonOpen");
+            if ($("#Prison1")[0].childElementCount == 0) {
+                $("#Prison1")[0].classList.add("prisonOpen");
+                this.position = "Prison1";
+            }
+            if ($("#Prison2")[0].childElementCount == 0) {
+                $("#Prison2")[0].classList.add("prisonOpen");
+                this.position = "Prison2";
+            }
+            net.UpdatePawns();
         }
         $(".prisonOpen").on("click.prisonOpen", function () {
             if (board.imprisoning) {
                 Prisoner.position = this.id;
                 var pawn = document.createElement("img");
                 pawn.className = Prisoner.type;
-                pawn.src = "img/" + Prisoner.color + "/" + Prisoner.type + ".png";
+                pawn.src = "img/" + Prisoner.color + "/" + (Prisoner.banana ? "banana" : "") + Prisoner.type + ".png";
                 $(this).append(pawn);
                 $(".prisonOpen").off("click.prisonOpen");
                 $(".prisonOpen").removeClass("prisonOpen");
                 board.imprisoning = false;
-                board.win()
+                net.UpdatePawns();
+                board.win();
             }
         });
     }

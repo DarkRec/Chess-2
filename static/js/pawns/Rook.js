@@ -7,18 +7,13 @@ class Rook extends Pawn {
     }
 
     PlaceRooks() {
-        var Rooks = board.PawnsPositions.White.Rooks;
-        for (var i in Rooks.position) {
-            var newRook = new Rook(Rooks.position[i], Rooks.name, "White");
-            board.PawnList.push(newRook);
-            rook.RookList.push(newRook);
-        }
-        var Rooks = board.PawnsPositions.Black.Rooks;
-        for (var i in Rooks.position) {
-            var newRook = new Rook(Rooks.position[i], Rooks.name, "Black");
-            board.PawnList.push(newRook);
-            rook.RookList.push(newRook);
-        }
+        board.PawnsPositions.forEach(function (pawn) {
+            if (pawn.type == "rook" && !pawn.captured) {
+                var newRook = new Rook(pawn.position, pawn.type, pawn.color);
+                board.PawnList.push(newRook);
+                rook.RookList.push(newRook);
+            }
+        });
     }
 
     movement() {
@@ -32,6 +27,7 @@ class Rook extends Pawn {
             }
         }
     }
+
     passive(id, color) {
         for (let num = -3; num < 4; num += 2) {
             try {
@@ -46,17 +42,14 @@ class Rook extends Pawn {
                             if (Prey.type == "king" || Prey.type == "queen") {
                                 board.imprisoning = true;
                                 Prey.imprisonment();
-                                $("#Box" + Prey.position).empty()
-                            }
-                            else {
+                            } else {
                                 Prey.captured = true;
-                                $("#Box" + Prey.position).empty();
                             }
+                            $("#Box" + Prey.position).empty();
                         }
                     }
                 });
-
-            } catch { }
+            } catch {}
         }
     }
 }
