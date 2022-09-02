@@ -1,7 +1,11 @@
 //console.log("wczytano plik Net.js")
 class Net {
     constructor() {
-        //console.log("konstruktor klasy Net")
+        console.log("konstruktor klasy Net")
+        this.socket = io('http://25.0.177.34:8000')
+        this.socket.on('connection', () => {
+            //console.log("con")
+        })
     }
 
     template() {
@@ -9,7 +13,7 @@ class Net {
             url: "/",
             data: {},
             type: "POST",
-            success: function (data) {},
+            success: function (data) { },
             error: function (xhr, status, error) {
                 console.log(xhr);
             },

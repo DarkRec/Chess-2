@@ -49,7 +49,8 @@ class Rook extends Pawn {
                         }
                     }
                 });
-            } catch {}
+            } catch { }
         }
+        net.UpdatePawns()
     }
 }

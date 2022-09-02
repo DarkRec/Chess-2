@@ -43,11 +43,16 @@ class Ui {
                     board.capturing = false;
                     ui.CurrentPawn = undefined;
                 }
-            } catch {}
+            } catch { }
         });
         try {
             $(".selected")[0].classList.remove("selected");
-        } catch {}
+        } catch { }
+        net.socket.emit("pawns", board.PawnList)
+        net.socket.on("pawns", (data) => {
+            board.PawnList = data
+            board.PlacePawns()
+        })
         net.UpdatePawns();
     }
 

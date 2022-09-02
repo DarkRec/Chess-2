@@ -2,6 +2,9 @@ const express = require("express");
 
 //-------------------------------------------------
 const app = express();
+const server = require('http').createServer(app)
+const io = require('socket.io')(server, { cors: { origin: "*" } })
+
 
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("static"));
@@ -9,7 +12,7 @@ app.use(express.static("static"));
 //-------------------------------------------------
 const PORT = 8000;
 
-app.listen(PORT, function () {
+server.listen(PORT, function () {
     console.log("start serwera na porcie " + PORT);
 });
 //-------------------------------------------------
@@ -125,3 +128,14 @@ app.post("/resetPawns", function (req, res) {
         );
     });
 });
+
+
+
+
+io.on('connection', (socket) => {
+    console.log(socket.id)
+
+    socket.on("pawns", (data) => {
+        socket.broadcast.emit("pawns", data)
+    })
+})
